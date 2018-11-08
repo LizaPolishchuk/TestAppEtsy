@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Test App ETSY</string>
+    <string name="btn_submit">Submit</string>
+    <string name="results_activity">Search Results</string>
+    <string name="nothing_found">Sorry! Nothing found!</string>
+    <string name="price">Price:</string>
+    <string name="description">Description:</string>
+    <string name="description_photo">Photo of product</string>
+    <string name="description_button">Button save</string>
+    <string name="loading">Loading…</string>
+    <string name="dialog_warning_title">No Internet connection</string>
+    <string name="dialog_warning_message">Please, check your Internet connection and try again</string>
+    <string name="btn_ok">OK</string>
+    <string name="add_keywords">Add keywords!</string>
+    <string name="btn_save">Save</string>
+    <string name="et_search_hint">Enter keywords</string>
+    <string name="label_results">Results</string>
+    <string name="label_about">About</string>
+    <string name="dialog_remove_title">Remove product</string>
+    <string name="dialog_remove_message">You want to remove this product from saved?</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
+    <string name="toast_already_saved">This app is already in saved</string>
+</resources>

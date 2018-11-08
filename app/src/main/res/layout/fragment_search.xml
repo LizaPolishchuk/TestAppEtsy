@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_keywords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_normal"
+        android:hint="@string/et_search_hint"
+        android:inputType="textCapWords"
+        android:textSize="@dimen/text_size_small" />
+
+    <Spinner
+        android:id="@+id/spinner_category"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/margin_normal">
+    </Spinner>
+
+    <Button
+        android:id="@+id/btn_submit"
+        style="@style/ButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_submit"
+        android:textSize="@dimen/text_size_small" />
+
+</LinearLayout>
