@@ -13,7 +13,9 @@ public class IntentAbout {
     public static final String SERIALIZABLE_IMAGE = "image";
     public static final String BOOLEAN_SAVED = "saved";
 
-
+    /**
+     * Starting activity AboutActivity that describe the selected product
+     */
     public static void startActivity(Context context, Product product, Image image, boolean fromSaved) {
 
         Intent intent = new Intent(context, AboutActivity.class);

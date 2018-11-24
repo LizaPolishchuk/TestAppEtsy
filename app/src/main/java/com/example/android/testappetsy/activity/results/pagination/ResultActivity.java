@@ -18,13 +18,20 @@ import android.widget.TextView;
 import com.example.android.testappetsy.R;
 import com.example.android.testappetsy.adapters.PaginationAdapter;
 import com.example.android.testappetsy.data.Results;
-import com.example.android.testappetsy.network.MyRetrofit;
+import com.example.android.testappetsy.dependency.DaggerResultsComponent;
+import com.example.android.testappetsy.dependency.ModuleContext;
+import com.example.android.testappetsy.dependency.ModuleIntent;
+import com.example.android.testappetsy.dependency.ModuleOnShow;
+import com.example.android.testappetsy.dependency.ResultsComponent;
 
 import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Activity that shows search results as a list of products
+ */
 public class ResultActivity extends AppCompatActivity implements OnGettingResults.OnShowInView, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.recycler_view_results)
@@ -46,8 +53,14 @@ public class ResultActivity extends AppCompatActivity implements OnGettingResult
 
         swipeLayout.setOnRefreshListener(this);
 
-        MyRetrofit retrofit = new MyRetrofit();
-        DataFactory dataFactory = new DataFactory(this, retrofit, getIntent(), this);
+        /**Create a component for dependency injection*/
+        ResultsComponent component = DaggerResultsComponent.builder()
+                .moduleContext(new ModuleContext(this))
+                .moduleIntent(new ModuleIntent(getIntent()))
+                .moduleOnShow(new ModuleOnShow(this))
+                .build();
+
+        DataFactory dataFactory = new DataFactory(component);
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
@@ -73,6 +86,7 @@ public class ResultActivity extends AppCompatActivity implements OnGettingResult
             }
         });
 
+        /**The observer of changes in the product list response */
         liveData.observe(this, new Observer<PagedList<Results>>() {
             @Override
             public void onChanged(@Nullable PagedList<Results> resultsData) {

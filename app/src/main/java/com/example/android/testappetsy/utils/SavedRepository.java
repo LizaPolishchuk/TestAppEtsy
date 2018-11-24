@@ -6,19 +6,19 @@ import android.widget.Toast;
 import com.example.android.testappetsy.R;
 import com.example.android.testappetsy.data.Image;
 import com.example.android.testappetsy.data.Product;
-import com.example.android.testappetsy.database.MyDatabase;
 import com.example.android.testappetsy.fragments.FragmentSaved;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**When the product is added to the savedList, it is checked that there is no identical products */
 public class SavedRepository {
 
     private static List<Product> productList = new ArrayList<>();
 
-    public static void putData(Context context, MyDatabase database, Product product, Image image) {
+    public static void putData(Context context, Product product, Image image) {
 
-        productList.addAll(WorkWithDatabase.getProductList(database));
+        productList.addAll(WorkWithDatabase.getProductList());
 
         for (Product prod : productList) {
             if (prod.getTitle().equals(product.getTitle())) {
@@ -29,9 +29,5 @@ public class SavedRepository {
         }
         FragmentSaved.onUpdate(product, image);
         productList.clear();
-    }
-
-    public static void removeData(MyDatabase database, Product product, Image image) {
-        WorkWithDatabase.deleteFromDb(database, product, image);
     }
 }

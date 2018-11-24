@@ -1,12 +1,9 @@
 package com.example.android.testappetsy.adapters;
 
-import android.arch.paging.PagedList;
 import android.arch.paging.PagedListAdapter;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**Adapter to display the list of products found*/
 public class PaginationAdapter extends PagedListAdapter<Results, PaginationAdapter.MyViewHolder> {
 
     public PaginationAdapter(@NonNull DiffUtil.ItemCallback<Results> diffCallback) {

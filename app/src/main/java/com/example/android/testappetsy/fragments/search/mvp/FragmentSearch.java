@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+/**The fragment in which the search is performed*/
 public class FragmentSearch extends Fragment implements SearchContract.View, View.OnClickListener {
 
     @BindView(R.id.spinner_category)
@@ -62,6 +63,7 @@ public class FragmentSearch extends Fragment implements SearchContract.View, Vie
         return view;
     }
 
+    /**Obtaining category names and display them in a spinner*/
     @Override
     public void showResults(String[] categoryNames, String[] shortNames) {
         this.categoryNames = categoryNames;
@@ -69,6 +71,7 @@ public class FragmentSearch extends Fragment implements SearchContract.View, Vie
         spinnerCategory.setAdapter(adapter);
     }
 
+    /**If there is no Internet connection will show the alert dialog with this warning */
     @Override
     public void onClick(View view) {
         if (!CheckingConnection.hasConnected(view.getContext()) || categoryNames == null) {

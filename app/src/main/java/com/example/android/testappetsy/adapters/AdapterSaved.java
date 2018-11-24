@@ -13,9 +13,8 @@ import android.widget.TextView;
 import com.example.android.testappetsy.R;
 import com.example.android.testappetsy.data.Image;
 import com.example.android.testappetsy.data.Product;
-import com.example.android.testappetsy.database.MyDatabase;
 import com.example.android.testappetsy.utils.IntentAbout;
-import com.example.android.testappetsy.utils.SavedRepository;
+import com.example.android.testappetsy.utils.WorkWithDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,13 +22,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**Adapter to display the list of saved products*/
 public class AdapterSaved extends RecyclerView.Adapter<AdapterSaved.ViewHolder> {
 
     private List<Product> productList;
     private List<Image> imageList;
-    private MyDatabase database;
+    private WorkWithDatabase database;
 
-    public AdapterSaved(List<Product> productList, List<Image> imageList, MyDatabase database) {
+    public AdapterSaved(List<Product> productList, List<Image> imageList, WorkWithDatabase database) {
         this.productList = productList;
         this.imageList = imageList;
         this.database = database;
@@ -49,12 +49,14 @@ public class AdapterSaved extends RecyclerView.Adapter<AdapterSaved.ViewHolder> 
         holder.textView.setText(product.getTitle());
         Picasso.get().load(image.getUrlSmallImage()).into(holder.imageView);
 
+        /**Clicking on an item will display detailed information about the selected product*/
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 IntentAbout.startActivity(holder.imageView.getContext(), product, image, true);
             }
         });
+        /**A long press on the item will allow to delete the selected product */
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -66,7 +68,7 @@ public class AdapterSaved extends RecyclerView.Adapter<AdapterSaved.ViewHolder> 
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 productList.remove(holder.getAdapterPosition());
                                 imageList.remove(holder.getAdapterPosition());
-                                SavedRepository.removeData(database, product, image);
+                                database.deleteFromDb(product, image);
                                 notifyItemRemoved(holder.getAdapterPosition());
                             }
                         })

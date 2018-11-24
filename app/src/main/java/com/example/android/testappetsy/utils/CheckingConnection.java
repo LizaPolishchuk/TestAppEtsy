@@ -3,7 +3,9 @@ package com.example.android.testappetsy.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
+/**
+ * Checking the Internet connection
+ */
 public class CheckingConnection {
 
     public static boolean hasConnected(Context context) {

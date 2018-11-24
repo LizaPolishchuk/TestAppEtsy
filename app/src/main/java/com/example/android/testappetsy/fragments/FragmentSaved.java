@@ -14,7 +14,9 @@ import com.example.android.testappetsy.R;
 import com.example.android.testappetsy.adapters.AdapterSaved;
 import com.example.android.testappetsy.data.Image;
 import com.example.android.testappetsy.data.Product;
-import com.example.android.testappetsy.database.MyDatabase;
+import com.example.android.testappetsy.dependency.DaggerSavedComponent;
+import com.example.android.testappetsy.dependency.ModuleContext;
+import com.example.android.testappetsy.dependency.SavedComponent;
 import com.example.android.testappetsy.utils.WorkWithDatabase;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+/**The fragment that display a list of saved products*/
 public class FragmentSaved extends Fragment {
 
     @BindView(R.id.recycler_view_saved)
@@ -33,8 +36,29 @@ public class FragmentSaved extends Fragment {
     static List<Image> imageList = new ArrayList<>();
 
     Unbinder unbinder;
-    static MyDatabase database;
     static AdapterSaved adapter;
+    static WorkWithDatabase database;
+
+    /**This method is called when a new item is added to the database*/
+    public static void onUpdate(Product product, Image image) {
+        if (productList.size() != 0 && imageList.size() != 0) {
+            database.clearDb();
+        }
+        productList.add(product);
+        imageList.add(image);
+
+        database.putToDb(productList, imageList);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        productList.clear();
+        imageList.clear();
+        productList.addAll(WorkWithDatabase.getProductList());
+        imageList.addAll(WorkWithDatabase.getImageList());
+    }
 
     @Nullable
     @Override
@@ -42,28 +66,18 @@ public class FragmentSaved extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_saved, container, false);
         unbinder = ButterKnife.bind(this, view);
-        database = new MyDatabase(getActivity());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        productList.addAll(WorkWithDatabase.getProductList(database));
-        imageList.addAll(WorkWithDatabase.getImageList(database));
+        SavedComponent component = DaggerSavedComponent.builder()
+                .moduleContext(new ModuleContext(getContext()))
+                .build();
+        database = component.getDatabase();
 
         adapter = new AdapterSaved(productList, imageList, database);
         recyclerView.setAdapter(adapter);
 
         return view;
-    }
-
-    public static void onUpdate(Product product, Image image) {
-        if (productList.size() != 0 && imageList.size() != 0) {
-            WorkWithDatabase.clearDb(database);
-        }
-        productList.add(product);
-        imageList.add(image);
-
-        WorkWithDatabase.putToDb(database, productList, imageList);
-        adapter.notifyDataSetChanged();
     }
 
     @Override

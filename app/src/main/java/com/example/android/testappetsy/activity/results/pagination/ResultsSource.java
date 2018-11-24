@@ -18,13 +18,15 @@ import com.example.android.testappetsy.network.MyRetrofit;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**This class accepts products from the Etsy API*/
 public class ResultsSource extends PositionalDataSource<Results> implements OnGettingResults {
 
-    private MyRetrofit retrofit;
     private Context context;
     private String category;
     private String keywords;
@@ -36,10 +38,12 @@ public class ResultsSource extends PositionalDataSource<Results> implements OnGe
     private List<List<Image>> imageResults = new ArrayList<>();
     private int[] arrListingId;
     private int num = 0;
+    private MyRetrofit retrofit;
 
     private PositionalDataSource.LoadInitialCallback<Results> initialCallback;
     private LoadRangeCallback<Results> rangeCallback;
 
+    @Inject
     ResultsSource(Context context, MyRetrofit retrofit, Intent intent, OnShowInView onShowInView) {
         this.context = context;
         this.retrofit = retrofit;
@@ -60,6 +64,7 @@ public class ResultsSource extends PositionalDataSource<Results> implements OnGe
         }
     }
 
+    /**Getting products*/
     private void getData(int limit, final int offset, String category, String keywords, final LoadInitialCallback<Results> callback, final LoadRangeCallback<Results> callbackRange, final OnGettingResults onGettingResults) {
         retrofit.getApiData().getProducts(limit, offset, category, keywords).enqueue(new Callback<ResultProduct>() {
             @Override
@@ -72,6 +77,7 @@ public class ResultsSource extends PositionalDataSource<Results> implements OnGe
                 initialCallback = callback;
                 rangeCallback = callbackRange;
 
+                /**Getting a listingId for obtain images of each product*/
                 arrListingId = new int[productList.size()];
                 for (int i = 0; i < productList.size(); i++) {
                     Product product = productList.get(i);
@@ -87,6 +93,7 @@ public class ResultsSource extends PositionalDataSource<Results> implements OnGe
         });
     }
 
+    /**Getting images for certain product*/
     private void getImage(final OnGettingResults onGettingResults, int listingId) {
         retrofit.getApiData().getImages(listingId).enqueue(new Callback<ResultImage>() {
             @Override
@@ -118,6 +125,7 @@ public class ResultsSource extends PositionalDataSource<Results> implements OnGe
         }
     }
 
+    /**Getting list of images for all products*/
     @Override
     public void onGetImage(List<List<Image>> imageResults) {
         if (imageResults.size() != productList.size()) {

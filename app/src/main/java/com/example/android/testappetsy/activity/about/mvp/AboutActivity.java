@@ -11,13 +11,15 @@ import android.widget.TextView;
 import com.example.android.testappetsy.R;
 import com.example.android.testappetsy.data.Image;
 import com.example.android.testappetsy.data.Product;
-import com.example.android.testappetsy.database.MyDatabase;
 import com.example.android.testappetsy.utils.SavedRepository;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * This activity describes the selected product
+ */
 public class AboutActivity extends AppCompatActivity implements AboutContract.View {
 
     @BindView(R.id.tv_title_about)
@@ -34,15 +36,12 @@ public class AboutActivity extends AppCompatActivity implements AboutContract.Vi
     Button btnSave;
 
     AboutPresenter presenter;
-    MyDatabase database;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
-
-        database = new MyDatabase(this);
 
         presenter = new AboutPresenter(this);
         presenter.getDataFromIntent(getIntent());
@@ -56,13 +55,15 @@ public class AboutActivity extends AppCompatActivity implements AboutContract.Vi
         tvCurrencyCode.setText(product.getCurrencyCode());
         Picasso.get().load(image.getUrlBigImage()).into(imageView);
 
+        /**If the product is already saved, hide the "Save" button*/
         if (fromSaved) {
             btnSave.setVisibility(View.GONE);
         } else {
+            /**Else save the product in database*/
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SavedRepository.putData(view.getContext(), database, product, image);
+                    SavedRepository.putData(view.getContext(), product, image);
                 }
             });
         }

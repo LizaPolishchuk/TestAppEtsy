@@ -6,6 +6,7 @@ import com.example.android.testappetsy.data.Image;
 import com.example.android.testappetsy.data.Product;
 import com.example.android.testappetsy.utils.IntentAbout;
 
+/**Getting data from Intent*/
 public class AboutModel implements AboutContract.Model {
     @Override
     public void getData(Intent intent, OnGettingData onGettingData) {

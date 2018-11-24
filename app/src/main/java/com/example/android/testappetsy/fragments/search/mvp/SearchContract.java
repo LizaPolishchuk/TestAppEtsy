@@ -11,7 +11,7 @@ public interface SearchContract {
             void onFailure(Throwable throwable);
         }
 
-        void getData(OnGettingData onGettingData, MyRetrofit retrofit);
+        void getData(OnGettingData onGettingData);
     }
 
     interface View {

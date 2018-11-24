@@ -2,6 +2,7 @@ package com.example.android.testappetsy.fragments.search.mvp;
 
 import android.util.Log;
 
+import com.example.android.testappetsy.dependency.DaggerSearchComponent;
 import com.example.android.testappetsy.network.MyRetrofit;
 
 public class SearchPresenter implements SearchContract.Presenter, SearchContract.Model.OnGettingData {
@@ -11,12 +12,12 @@ public class SearchPresenter implements SearchContract.Presenter, SearchContract
 
     SearchPresenter(SearchContract.View view) {
         this.view = view;
-        model = new SearchModel();
+        model = DaggerSearchComponent.create().getSearchModel();
     }
 
     @Override
     public void getCategories(MyRetrofit retrofit) {
-        model.getData(this, retrofit);
+        model.getData(this);
     }
 
 
