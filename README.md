@@ -1,6 +1,6 @@
 <div>
 	<div style="border-bottom: 1pt solid windowtext; padding: 0cm 0cm 1pt;">
-		<h1>List of Friends</h1>
+		<h1>ETSY Store</h1>
 	</div>
 </div>
 <pThere is an application that allows you to search for products from the ETSY online store using an open API.
